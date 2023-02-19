@@ -1,0 +1,221 @@
+App.jsx code start > 
+
+import React from "react";
+import TodoList from "./Components/TodoList";
+
+function App() {
+  return (
+    <div className="App">
+      <TodoList />  {/* contains all code including main logic, items, form */}
+    </div>
+  );
+}
+
+export default App;
+
+App.jsx code ends
+
+
+TodoList.jsx code start > 
+
+import React, { useEffect, useState } from 'react'
+import TodoItem from './TodoItem'   // contains all items and operations like update, save, cancel
+import TodoForm from './TodoForm';  // contains elements like input:text and button:add
+import { v4 as uuidv4 } from 'uuid';
+
+const TodoList = () => {
+    const [todos, setTodos] = useState([]); // conatins all todo items in the form of array
+    const [inputTodo, setInputTodo] = useState(''); // used to save input text on onChange
+    const [filter, setFilter] = useState('All');
+    const [search, setSearch] = useState('');
+    const [due, setDue] = useState('');
+
+    useEffect(() => {
+        const savedTodos = JSON.parse(localStorage.getItem('todos') || '[]');   // check for todos and setTodos
+        setTodos(savedTodos);
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos));   // whenever item gets add setItem in localStorage
+    }, [todos]);
+
+    const addHandler = () => {  // when clicked on add button run this function
+        if (inputTodo.trim() === '' || due === '') return;    // when input is empty return
+        const todoItem = {  // otherwise make a object with id, text and completed checkbox
+            id: uuidv4(),
+            text: inputTodo,
+            completed: false,
+            dueDate: due
+        }
+        console.log(todoItem.dueDate);
+        setTodos([...todos, todoItem]); // set this object with previous todo items
+        console.log(todoItem);
+        setInputTodo('');
+        setDue('');
+    }
+
+    const inputHandler = (e) => {
+        setInputTodo(e.target.value);    // whenever input changes setInputTodo
+    }
+
+    const deleteHandler = (id) => {
+        setTodos(todos.filter(todo => todo.id !== id)); // set only those todos whose id does not meet passed id which we want to delete
+    }
+
+    const editTodoHandler = (id, updatedText, updatedDue) => {  // after clicking on edit check whether id === todos.id and update the text of that todo to updatedText passed from todoItem.jsx
+        const updatedTodo = todos.map(todo => {
+            if (todo.id === id) {
+                return { ...todo, text: updatedText, dueDate: updatedDue }
+            } else {
+                return todo;
+            }
+        })
+        setTodos(updatedTodo)
+    }
+
+    const toggleCheckbox = (id) => {    // toggle helps to keep track of task is completed or not
+        const updateCheckBoxTodo = todos.map(todo => {
+            if (todo.id === id) {
+                return { ...todo, completed: !todo.completed }  // only change completed of todo and other info as it is 
+            }
+            return todo;
+        })
+        setTodos(updateCheckBoxTodo);
+    }
+
+    const filterHandler = (e) => {  // after changing of type of filter from all, compeleted and incompleted change filter state of selected filter
+        setFilter(e.target.value);
+    }
+
+    const searchHandler = (e) => {
+        setSearch(e.target.value);
+    }
+
+    const dueDateHandler = (e) => {
+        setDue(e.target.value);
+    }
+
+    const filteredTodos = todos.filter(item => {    // now we need to map todos over filteredTodos based on type of filter
+        if (filter === 'All') {
+            return true;
+        } else if (filter === 'Incompleted') {
+            return !item.completed || item.completed === undefined;
+        } else {
+            return item.completed || item.completed === undefined;
+        }
+    }).filter(item => {
+        return item.text.toLowerCase().includes(search.toLowerCase());
+    })
+
+    return (
+        <><div>TodoList</div>
+            <div className="list-container">
+                <TodoForm inputHandler={inputHandler} addHandler={addHandler} inputTodo={inputTodo} filterHandler={filterHandler} searchHandler={searchHandler} dueDateHandler={dueDateHandler} due={due} />
+                {
+                    filteredTodos.map((item) => {   // here mapping is done on filteredTodos not on todos
+                        return (
+                            <TodoItem key={item.id} item={item} deleteHandler={deleteHandler} onEdit={editTodoHandler} toggleCheckbox={toggleCheckbox} />
+                        )
+                    })
+                }
+            </div>
+        </>
+    )
+}
+
+export default TodoList
+
+< TodoList.jsx code ends.
+
+
+TodoItem.jsx code start > 
+
+import React, { useState } from 'react'
+import './todoItem.css'
+
+const TodoItem = ({ item, deleteHandler, onEdit, toggleCheckbox }) => {
+    const [isEditing, setIsEditing] = useState(false);  // it is used for editing purpose
+    const [inputUpdateTodo, setInputUpdateTodo] = useState(item.text);  // used for keeping track of new text of todo
+    const [dueUpdateTodo, setDueUpdateTodo] = useState(item.dueDate);
+
+    const inputChangeHandler = (e) => {
+        setInputUpdateTodo(e.target.value)
+    }
+
+    const dueChangeHandler = (e) => {
+        setDueUpdateTodo(e.target.value);
+    }
+
+    const editHandler = () => {
+        setIsEditing(true);
+    }
+
+    const saveHandler = () => {
+        onEdit(item.id, inputUpdateTodo, dueUpdateTodo);
+        setIsEditing(false);
+    }
+
+    const cancelHandler = () => {
+        setInputUpdateTodo(item.text);
+        setIsEditing(false);
+    }
+
+    const checkBoxHandler = () => {
+        toggleCheckbox(item.id);
+    }
+
+    return (
+        <div className="item-info">
+            {
+                isEditing ? (
+                    <>
+                        <input type="text" value={inputUpdateTodo} onChange={inputChangeHandler} />
+                        <input type="date" value={dueUpdateTodo} onChange={dueChangeHandler} />
+                        <button onClick={saveHandler}>Save</button>
+                        <button onClick={cancelHandler}>Cancel</button>
+                    </>
+                ) : (
+                    <div className={item.completed ? 'completed' : ''}>
+                        <input type="checkbox" onChange={checkBoxHandler} checked={item.completed} />
+                        <span>{item.text}</span>
+                        <span>Due date : {item.dueDate}</span>
+                        <button onClick={editHandler}>Edit</button>
+                        <button onClick={() => deleteHandler(item.id)}>Delete</button>
+                    </div>
+                )
+            }
+        </div>
+    )
+}
+
+export default TodoItem
+
+<TodoItem.jsx code ends.
+
+
+TodoForm.jsx code start > 
+
+import React from 'react'
+
+const TodoForm = ({ inputHandler, addHandler, inputTodo, filterHandler, searchHandler, dueDateHandler, due }) => {
+    return (
+        <div className='form-container'>
+            <input type="text" onChange={inputHandler} value={inputTodo} />
+            <input type="date" onChange={dueDateHandler} value={due} />
+            <button onClick={addHandler}>Add</button>
+            <select onChange={filterHandler}>
+                <option value="All">All</option>
+                <option value="Completed">Completed</option>
+                <option value="Incompleted">Incompleted</option>
+            </select>
+            <input type="search" placeholder='search...' onChange={searchHandler} />
+        </div>
+    )
+}
+
+export default TodoForm
+
+< TodoForm.jsx code ends.
+
+
+

@@ -1,0 +1,105 @@
+.item-info {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    transition: all 0.3s ease;
+    margin: 10px;
+}
+
+.completed {
+    background-color: #e1e1e1;
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
+.text-container {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.due-date {
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.button-container {
+    display: flex;
+}
+
+.edit-button,
+.delete-button {
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-button:hover,
+.delete-button:hover {
+    background-color: #3e8e41;
+}
+
+.edit-mode {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+}
+
+.edit-input,
+.edit-due {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 1.2rem;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.edit-button-container {
+    display: flex;
+}
+
+.edit-save,
+.edit-cancel {
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-save:hover,
+.edit-cancel:hover {
+    background-color: #3e8e41;
+}

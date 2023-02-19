@@ -1,0 +1,93 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.input-field {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    width: 300px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 20px;
+}
+
+.date-field {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    width: 200px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    height: 20px;
+}
+
+.add-button {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    background-color: #008000;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.input-field:focus,
+.date-field:focus,
+.search-field:focus {
+    background-color: #fff;
+    border: 1px solid #008000;
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+}
+
+.add-button:hover {
+    background-color: #005700;
+    transform: translateY(-2px);
+}
+
+.filter-select {
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.filter-select:hover {
+    background-color: #f2f2f2;
+}
+
+.search-field {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    width: 200px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-select,
+.search-field {
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
