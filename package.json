@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://yash-sahane.github.io/todo-react-app/",
+  "homepage": "http://yash-sahane.github.io/todo-app/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
